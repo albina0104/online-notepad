@@ -1,7 +1,9 @@
-import PropTypes from 'prop-types';
+import { useLoaderData } from 'react-router-dom';
 import NoteCard from './NoteCard';
 
-function NoteList({ notes }) {
+function NoteList() {
+  const notes = useLoaderData();
+
   return (
     <>
       <h1 className='text-center mt-4 mb-4'>My Notes</h1>
@@ -15,8 +17,5 @@ function NoteList({ notes }) {
     </>
   );
 }
-NoteList.propTypes = {
-  notes: PropTypes.array,
-};
 
 export default NoteList;

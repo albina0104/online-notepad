@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
-import App from './App.jsx';
 import './index.css';
 import Navbar from './components/Navbar.jsx';
+import NoteList from './components/NoteList.jsx';
 import NoteView from './components/NoteView.jsx';
+import Loaders from './handlers/dataLoaders';
+
+const { notesLoader } = Loaders;
 
 const router = createBrowserRouter([
   {
@@ -17,7 +20,8 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <App />,
+        element: <NoteList />,
+        loader: notesLoader,
       },
       {
         path: 'note-view',
