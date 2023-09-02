@@ -1,4 +1,9 @@
+import { useLoaderData } from 'react-router-dom';
+import timestampToDate from '../functions/timestampToDate';
+
 function NoteView() {
+  const note = useLoaderData();
+
   return (
     <>
       <h1 className='mt-4 mb-4 text-center'>Note</h1>
@@ -11,6 +16,7 @@ function NoteView() {
             type='text'
             className='form-control form-control-lg'
             id='noteTitle'
+            defaultValue={note.noteTitle}
           />
         </div>
         <label htmlFor='colorInput' className='form-label'>
@@ -21,7 +27,7 @@ function NoteView() {
             type='color'
             className='form-control form-control-color'
             id='colorInput'
-            value='#ffffff'
+            defaultValue={note.noteColor}
             title='Choose your color'
           ></input>
         </div>
@@ -29,13 +35,18 @@ function NoteView() {
           <label htmlFor='noteText' className='form-label'>
             Note text
           </label>
-          <textarea className='form-control' id='noteText' rows='3'></textarea>
+          <textarea
+            className='form-control'
+            id='noteText'
+            rows='3'
+            defaultValue={note.noteText}
+          ></textarea>
         </div>
         <button type='submit' className='btn btn-primary mb-3'>
           Save
         </button>
-        <div>Created at:</div>
-        <div>Updated at:</div>
+        <div>Created at: {timestampToDate(note.noteCreatedAt)}</div>
+        <div>Updated at: {timestampToDate(note.noteUpdatedAt)}</div>
       </form>
     </>
   );

@@ -7,7 +7,7 @@ import NoteList from './components/NoteList.jsx';
 import NoteView from './components/NoteView.jsx';
 import Loaders from './handlers/dataLoaders';
 
-const { notesLoader } = Loaders;
+const { notesLoader, noteLoader } = Loaders;
 
 const router = createBrowserRouter([
   {
@@ -24,8 +24,9 @@ const router = createBrowserRouter([
         loader: notesLoader,
       },
       {
-        path: 'note-view',
+        path: 'note/:noteId',
         element: <NoteView />,
+        loader: noteLoader,
       },
     ],
   },

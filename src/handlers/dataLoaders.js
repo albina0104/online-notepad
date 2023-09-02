@@ -12,6 +12,11 @@ const Loaders = {
 
     return notesList;
   },
+
+  noteLoader: async ({ params }) => {
+    const { readNote } = Firestore;
+    return await readNote(params.noteId);
+  },
 };
 
 export default Loaders;
