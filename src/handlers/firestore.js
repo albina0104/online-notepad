@@ -3,10 +3,7 @@ import { db } from '../lib/firebase.config';
 
 const Firestore = {
   readNotes: async () => {
-    const querySnapshot = await getDocs(collection(db, 'notes'));
-    querySnapshot.forEach((doc) => {
-      console.log(`${doc.id} => ${doc.data()}`);
-    });
+    return await getDocs(collection(db, 'notes'));
   },
 };
 
