@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import Firestore from './handlers/firestore';
-import Navbar from './components/Navbar';
 import NoteList from './components/NoteList';
 
 function App() {
@@ -18,12 +17,7 @@ function App() {
     });
   }, []);
 
-  return (
-    <>
-      <Navbar />
-      <NoteList notes={notes} />
-    </>
-  );
+  return <NoteList notes={notes} />;
 }
 
 export default App;
