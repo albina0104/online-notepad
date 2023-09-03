@@ -1,6 +1,15 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Firestore from '../handlers/firestore';
 
 function Navbar() {
+  const { createNote } = Firestore;
+  const navigate = useNavigate();
+
+  const newNote = async () => {
+    const noteRef = await createNote();
+    navigate(`/note/${noteRef}`);
+  };
+
   return (
     <>
       <nav className='navbar navbar-expand-md bg-body-tertiary sticky-top'>
@@ -27,9 +36,9 @@ function Navbar() {
                 </Link>
               </li>
               <li className='nav-item'>
-                <Link to='/note-view' className='nav-link'>
+                <button type='button' onClick={newNote} className='nav-link'>
                   ➕ New note
-                </Link>
+                </button>
               </li>
             </ul>
             <form className='d-flex' role='search'>

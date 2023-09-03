@@ -4,6 +4,7 @@ import {
   doc,
   getDoc,
   updateDoc,
+  addDoc,
   serverTimestamp,
 } from 'firebase/firestore';
 import { db } from '../lib/firebase.config';
@@ -28,6 +29,18 @@ const Firestore = {
       noteText: text,
       noteUpdatedAt: serverTimestamp(),
     });
+  },
+
+  createNote: async () => {
+    const docRef = await addDoc(collection(db, 'notes'), {
+      noteAuthor: 'author@email.com',
+      noteTitle: '',
+      noteColor: '#ffffff',
+      noteText: '',
+      noteCreatedAt: serverTimestamp(),
+      noteUpdatedAt: serverTimestamp(),
+    });
+    return docRef.id;
   },
 };
 
