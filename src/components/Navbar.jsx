@@ -1,7 +1,15 @@
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Firestore from '../handlers/firestore';
+import { useAuthContext } from '../context/AuthContext';
 
 function Navbar() {
+  const { user, setUser } = useAuthContext();
+
+  useEffect(() => {
+    setUser('User Name');
+  }, []);
+
   const { createNote } = Firestore;
   const navigate = useNavigate();
 
@@ -65,7 +73,7 @@ function Navbar() {
               <ul className='dropdown-menu dropdown-menu-end'>
                 <li>
                   <a className='dropdown-item' href='#'>
-                    Action
+                    {user}
                   </a>
                 </li>
                 <li>

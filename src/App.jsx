@@ -1,23 +1,41 @@
-import { useEffect, useState } from 'react';
-import './App.css';
-import Firestore from './handlers/firestore';
-import NoteList from './components/NoteList';
+import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+import AuthContextProvider from './context/AuthContext';
+import Navbar from './components/Navbar.jsx';
+import NoteList from './components/NoteList.jsx';
+import NoteView from './components/NoteView.jsx';
+import Loaders from './handlers/dataLoaders';
+
+const { notesLoader, noteLoader } = Loaders;
+
+const router = createBrowserRouter([
+  {
+    element: (
+      <>
+        <Navbar />
+        <Outlet />
+      </>
+    ),
+    children: [
+      {
+        path: '/',
+        element: <NoteList />,
+        loader: notesLoader,
+      },
+      {
+        path: 'note/:noteId',
+        element: <NoteView />,
+        loader: noteLoader,
+      },
+    ],
+  },
+]);
 
 function App() {
-  const { readNotes } = Firestore;
-  const [notes, setNotes] = useState([]);
-
-  useEffect(() => {
-    const notesList = [];
-    readNotes().then((docs) => {
-      docs.forEach((doc) => {
-        notesList.push({ noteId: doc.id, ...doc.data() });
-      });
-      setNotes(notesList);
-    });
-  }, []);
-
-  return <NoteList notes={notes} />;
+  return (
+    <AuthContextProvider>
+      <RouterProvider router={router} />
+    </AuthContextProvider>
+  );
 }
 
 export default App;
