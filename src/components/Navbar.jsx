@@ -1,14 +1,27 @@
-import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Firestore from '../handlers/firestore';
 import { useAuthContext } from '../context/AuthContext';
 
-function Navbar() {
-  const { user, setUser } = useAuthContext();
+function Login() {
+  const { login } = useAuthContext();
+  return (
+    <button type='button' className='btn btn-warning' onClick={login}>
+      Login
+    </button>
+  );
+}
 
-  useEffect(() => {
-    setUser('User Name');
-  }, []);
+function Logout() {
+  const { logout } = useAuthContext();
+  return (
+    <button type='button' className='btn btn-danger' onClick={logout}>
+      Logout
+    </button>
+  );
+}
+
+function Navbar() {
+  const { currentUser } = useAuthContext();
 
   const { createNote } = Firestore;
   const navigate = useNavigate();
@@ -68,27 +81,39 @@ function Navbar() {
                 data-bs-toggle='dropdown'
                 aria-expanded='false'
               >
-                Login
+                {currentUser ? (
+                  <img
+                    src={currentUser.photoURL}
+                    alt={currentUser.displayName}
+                    width={'36px'}
+                    height={'36px'}
+                    style={{ borderRadius: '50%' }}
+                  />
+                ) : (
+                  'Login'
+                )}
               </a>
-              <ul className='dropdown-menu dropdown-menu-end'>
-                <li>
-                  <a className='dropdown-item' href='#'>
-                    {user}
-                  </a>
-                </li>
-                <li>
-                  <a className='dropdown-item' href='#'>
-                    Another action
-                  </a>
-                </li>
-                <li>
-                  <hr className='dropdown-divider' />
-                </li>
-                <li>
-                  <a className='dropdown-item' href='#'>
-                    Something else here
-                  </a>
-                </li>
+              <ul className='dropdown-menu dropdown-menu-end text-center'>
+                {currentUser && (
+                  <>
+                    <li>
+                      <a className='dropdown-item' href='#'>
+                        {currentUser.displayName}
+                      </a>
+                    </li>
+                    <li>
+                      <hr className='dropdown-divider' />
+                    </li>
+                    <li>
+                      <Logout />
+                    </li>
+                  </>
+                )}
+                {!currentUser && (
+                  <li>
+                    <Login />
+                  </li>
+                )}
               </ul>
             </li>
           </div>

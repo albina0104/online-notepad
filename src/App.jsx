@@ -1,5 +1,6 @@
+import { useEffect } from 'react';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
-import AuthContextProvider from './context/AuthContext';
+import AuthContextProvider, { useAuthContext } from './context/AuthContext';
 import Navbar from './components/Navbar.jsx';
 import NoteList from './components/NoteList.jsx';
 import NoteView from './components/NoteView.jsx';
@@ -30,10 +31,20 @@ const router = createBrowserRouter([
   },
 ]);
 
+function Router() {
+  const { authenticate } = useAuthContext();
+
+  useEffect(() => {
+    authenticate();
+  }, []);
+
+  return <RouterProvider router={router} />;
+}
+
 function App() {
   return (
     <AuthContextProvider>
-      <RouterProvider router={router} />
+      <Router />
     </AuthContextProvider>
   );
 }
