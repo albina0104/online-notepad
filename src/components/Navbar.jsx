@@ -26,7 +26,8 @@ function Navigation() {
   const navigate = useNavigate();
 
   const newNote = async () => {
-    const noteRef = await createNote();
+    const { uid } = currentUser;
+    const noteRef = await createNote(uid);
     navigate(`/note/${noteRef}`);
   };
 

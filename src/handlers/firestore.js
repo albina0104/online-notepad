@@ -1,5 +1,7 @@
 import {
   collection,
+  query,
+  where,
   getDocs,
   doc,
   getDoc,
@@ -10,8 +12,9 @@ import {
 import { db } from '../lib/firebase.config';
 
 const Firestore = {
-  readNotes: async () => {
-    return await getDocs(collection(db, 'notes'));
+  readNotes: async (uid) => {
+    const q = query(collection(db, 'notes'), where('noteAuthorUid', '==', uid));
+    return await getDocs(q);
   },
 
   readNote: async (noteId) => {
@@ -31,9 +34,9 @@ const Firestore = {
     });
   },
 
-  createNote: async () => {
+  createNote: async (uid) => {
     const docRef = await addDoc(collection(db, 'notes'), {
-      noteAuthor: 'author@email.com',
+      noteAuthorUid: uid,
       noteTitle: '',
       noteColor: '#ffffff',
       noteText: '',

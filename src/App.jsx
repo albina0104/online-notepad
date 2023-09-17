@@ -8,31 +8,33 @@ import Loaders from './handlers/dataLoaders';
 
 const { notesLoader, noteLoader } = Loaders;
 
-const router = createBrowserRouter([
-  {
-    element: (
-      <>
-        <Navbar />
-        <Outlet />
-      </>
-    ),
-    children: [
-      {
-        path: '/',
-        element: <NoteList />,
-        loader: notesLoader,
-      },
-      {
-        path: 'note/:noteId',
-        element: <NoteView />,
-        loader: noteLoader,
-      },
-    ],
-  },
-]);
-
 function Router() {
-  const { authenticate } = useAuthContext();
+  const { currentUser, authenticate } = useAuthContext();
+
+  const router = createBrowserRouter([
+    {
+      element: (
+        <>
+          <Navbar />
+          <Outlet />
+        </>
+      ),
+      children: [
+        {
+          path: '/',
+          element: <NoteList />,
+          loader: () => {
+            return notesLoader(currentUser?.uid);
+          },
+        },
+        {
+          path: 'note/:noteId',
+          element: <NoteView />,
+          loader: noteLoader,
+        },
+      ],
+    },
+  ]);
 
   useEffect(() => {
     authenticate();
