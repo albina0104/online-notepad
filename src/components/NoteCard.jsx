@@ -1,8 +1,16 @@
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Firestore from '../handlers/firestore';
 import timestampToDate from '../functions/timestampToDate';
 
 function NoteCard({ noteId, noteTitle, noteText, noteUpdatedAt }) {
+  const { deleteNote } = Firestore;
+
+  const handleDelete = async () => {
+    await deleteNote(noteId);
+    alert('Note deleted successfully!');
+  };
+
   return (
     <>
       <div className='col'>
@@ -18,9 +26,14 @@ function NoteCard({ noteId, noteTitle, noteText, noteUpdatedAt }) {
             <a href='#' className='btn'>
               ✏️
             </a>
-            <a href='#' className='btn'>
+            <button
+              type='button'
+              aria-label='Delete note'
+              onClick={handleDelete}
+              className='btn'
+            >
               🗑️
-            </a>
+            </button>
           </div>
           <div className='card-footer text-body-secondary'>
             Updated at {timestampToDate(noteUpdatedAt)}

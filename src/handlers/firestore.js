@@ -7,6 +7,7 @@ import {
   getDoc,
   updateDoc,
   addDoc,
+  deleteDoc,
   serverTimestamp,
 } from 'firebase/firestore';
 import { db } from '../lib/firebase.config';
@@ -44,6 +45,10 @@ const Firestore = {
       noteUpdatedAt: serverTimestamp(),
     });
     return docRef.id;
+  },
+
+  deleteNote: async (noteId) => {
+    await deleteDoc(doc(db, 'notes', noteId));
   },
 };
 
