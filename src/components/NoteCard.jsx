@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Firestore from '../handlers/firestore';
 import timestampToDate from '../functions/timestampToDate';
 
-function NoteCard({ noteId, noteTitle, noteText, noteUpdatedAt }) {
+function NoteCard({ noteId, noteTitle, noteColor, noteText, noteUpdatedAt }) {
   const { deleteNote } = Firestore;
 
   const handleDelete = async () => {
@@ -14,7 +14,10 @@ function NoteCard({ noteId, noteTitle, noteText, noteUpdatedAt }) {
   return (
     <>
       <div className='col'>
-        <div className='card text-center h-100'>
+        <div
+          className='card text-center h-100'
+          style={{ backgroundColor: noteColor }}
+        >
           <Link to={`note/${noteId}`} className='card-header'>
             <h5 className='card-title'>{noteTitle}</h5>
           </Link>
@@ -46,6 +49,7 @@ function NoteCard({ noteId, noteTitle, noteText, noteUpdatedAt }) {
 NoteCard.propTypes = {
   noteId: PropTypes.string,
   noteText: PropTypes.string,
+  noteColor: PropTypes.string,
   noteTitle: PropTypes.string,
   noteUpdatedAt: PropTypes.object,
 };
