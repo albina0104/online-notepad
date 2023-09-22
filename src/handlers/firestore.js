@@ -50,6 +50,11 @@ const Firestore = {
   deleteNote: async (noteId) => {
     await deleteDoc(doc(db, 'notes', noteId));
   },
+
+  changeNoteColor: async (noteId, color) => {
+    const docRef = doc(db, 'notes', noteId);
+    await updateDoc(docRef, { noteColor: color });
+  },
 };
 
 export default Firestore;
