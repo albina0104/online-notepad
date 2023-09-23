@@ -1,8 +1,15 @@
-import { useLoaderData } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useAuthContext } from '../context/AuthContext';
+import { useFirestoreContext } from '../context/FirestoreContext';
 import NoteCard from './NoteCard';
 
 function NoteList() {
-  const notes = useLoaderData();
+  const { currentUser } = useAuthContext();
+  const { notes, loadNotes } = useFirestoreContext();
+
+  useEffect(() => {
+    loadNotes(currentUser?.uid);
+  }, [currentUser?.uid]);
 
   return (
     <>

@@ -1,15 +1,16 @@
 import { useEffect } from 'react';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import AuthContextProvider, { useAuthContext } from './context/AuthContext';
+import FirestoreContextProvider from './context/FirestoreContext';
 import Navbar from './components/Navbar.jsx';
 import NoteList from './components/NoteList.jsx';
 import NoteView from './components/NoteView.jsx';
 import Loaders from './handlers/dataLoaders';
 
-const { notesLoader, noteLoader } = Loaders;
+const { noteLoader } = Loaders;
 
 function Router() {
-  const { currentUser, authenticate } = useAuthContext();
+  const { authenticate } = useAuthContext();
 
   const router = createBrowserRouter([
     {
@@ -23,9 +24,6 @@ function Router() {
         {
           path: '/',
           element: <NoteList />,
-          loader: () => {
-            return notesLoader(currentUser?.uid);
-          },
         },
         {
           path: 'note/:noteId',
@@ -46,7 +44,9 @@ function Router() {
 function App() {
   return (
     <AuthContextProvider>
-      <Router />
+      <FirestoreContextProvider>
+        <Router />
+      </FirestoreContextProvider>
     </AuthContextProvider>
   );
 }
