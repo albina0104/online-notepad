@@ -2,13 +2,16 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Firestore from '../handlers/firestore';
 import timestampToDate from '../functions/timestampToDate';
+import { useFirestoreContext } from '../context/FirestoreContext';
 
 function NoteCard({ noteId, noteTitle, noteColor, noteText, noteUpdatedAt }) {
+  const { loadNotes } = useFirestoreContext();
   const { deleteNote } = Firestore;
 
   const handleDelete = async () => {
     await deleteNote(noteId);
     alert('Note deleted successfully!');
+    loadNotes();
   };
 
   return (
