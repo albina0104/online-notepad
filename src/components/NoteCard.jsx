@@ -35,16 +35,16 @@ function NoteControls({ noteId }) {
           </a>
         </li>
         <li>
-          <a className='dropdown-item' href='#'>
+          <Link to={`note/${noteId}`} className='btn dropdown-item'>
             ✏️ Edit note
-          </a>
+          </Link>
         </li>
         <li>
           <button
             type='button'
             aria-label='Delete note'
             onClick={handleDelete}
-            className='btn'
+            className='btn dropdown-item'
           >
             🗑️ Delete note
           </button>
