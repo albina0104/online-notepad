@@ -4,7 +4,16 @@ import Firestore from '../handlers/firestore';
 import timestampToDate from '../functions/timestampToDate';
 import { useFirestoreContext } from '../context/FirestoreContext';
 
-function NoteControls() {
+function NoteControls({ noteId }) {
+  const { loadNotes } = useFirestoreContext();
+  const { deleteNote } = Firestore;
+
+  const handleDelete = async () => {
+    await deleteNote(noteId);
+    alert('Note deleted successfully!');
+    loadNotes();
+  };
+
   return (
     <div
       className='btn-group float-end'
@@ -31,7 +40,12 @@ function NoteControls() {
           </a>
         </li>
         <li>
-          <button type='button' aria-label='Delete note' className='btn'>
+          <button
+            type='button'
+            aria-label='Delete note'
+            onClick={handleDelete}
+            className='btn'
+          >
             🗑️ Delete note
           </button>
         </li>
@@ -39,17 +53,11 @@ function NoteControls() {
     </div>
   );
 }
+NoteControls.propTypes = {
+  noteId: PropTypes.string,
+};
 
 function NoteCard({ noteId, noteTitle, noteColor, noteText, noteUpdatedAt }) {
-  const { loadNotes } = useFirestoreContext();
-  const { deleteNote } = Firestore;
-
-  const handleDelete = async () => {
-    await deleteNote(noteId);
-    alert('Note deleted successfully!');
-    loadNotes();
-  };
-
   return (
     <>
       <div className='col'>
@@ -61,24 +69,10 @@ function NoteCard({ noteId, noteTitle, noteColor, noteText, noteUpdatedAt }) {
             <Link to={`note/${noteId}`} style={{ display: 'inline-block' }}>
               <h5 className='card-title'>{noteTitle}</h5>
             </Link>
-            <NoteControls />
+            <NoteControls noteId={noteId} />
           </div>
           <div className='card-body'>
             <p className='card-text'>{noteText}</p>
-            <a href='#' className='btn'>
-              🎨
-            </a>
-            <a href='#' className='btn'>
-              ✏️
-            </a>
-            <button
-              type='button'
-              aria-label='Delete note'
-              onClick={handleDelete}
-              className='btn'
-            >
-              🗑️
-            </button>
           </div>
           <div className='card-footer text-body-secondary'>
             Updated at {timestampToDate(noteUpdatedAt)}
