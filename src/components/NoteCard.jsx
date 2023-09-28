@@ -4,9 +4,14 @@ import Firestore from '../handlers/firestore';
 import timestampToDate from '../functions/timestampToDate';
 import { useFirestoreContext } from '../context/FirestoreContext';
 
-function NoteControls({ noteId }) {
+function NoteControls({ noteId, noteColor }) {
   const { loadNotes } = useFirestoreContext();
-  const { deleteNote } = Firestore;
+  const { deleteNote, changeNoteColor } = Firestore;
+
+  const handleColorChange = async (noteId, event) => {
+    await changeNoteColor(noteId, event.target.value);
+    loadNotes();
+  };
 
   const handleDelete = async () => {
     await deleteNote(noteId);
@@ -31,7 +36,26 @@ function NoteControls({ noteId }) {
       <ul className='dropdown-menu'>
         <li>
           <a className='dropdown-item' href='#'>
-            🎨 Change note color
+            <label style={{ position: 'relative' }}>
+              <input
+                type='color'
+                className='form-control form-control-color'
+                name='colorInput'
+                id='colorInput'
+                defaultValue={noteColor}
+                title='Choose your color'
+                style={{
+                  position: 'absolute',
+                  width: '100%',
+                  height: '100%',
+                  opacity: '0',
+                }}
+                onChange={(event) => {
+                  handleColorChange(noteId, event);
+                }}
+              ></input>
+              🎨 Change note color
+            </label>
           </a>
         </li>
         <li>
@@ -55,6 +79,7 @@ function NoteControls({ noteId }) {
 }
 NoteControls.propTypes = {
   noteId: PropTypes.string,
+  noteColor: PropTypes.string,
 };
 
 function NoteCard({ noteId, noteTitle, noteColor, noteText, noteUpdatedAt }) {
@@ -69,7 +94,7 @@ function NoteCard({ noteId, noteTitle, noteColor, noteText, noteUpdatedAt }) {
             <Link to={`note/${noteId}`} style={{ display: 'inline-block' }}>
               <h5 className='card-title'>{noteTitle}</h5>
             </Link>
-            <NoteControls noteId={noteId} />
+            <NoteControls noteId={noteId} noteColor={noteColor} />
           </div>
           <div className='card-body'>
             <p className='card-text'>{noteText}</p>
