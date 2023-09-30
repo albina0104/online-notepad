@@ -1,5 +1,6 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Firestore from '../handlers/firestore';
+import { useFirestoreContext } from '../context/FirestoreContext';
 import { useAuthContext } from '../context/AuthContext';
 
 function LoginButton() {
@@ -50,18 +51,29 @@ function Navigation() {
 }
 
 function SearchForm() {
+  const { filterNotes } = useFirestoreContext();
+  const location = useLocation();
+
+  const handleChange = (event) => {
+    filterNotes(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+  };
+
   return (
-    <form className='d-flex' role='search'>
-      <input
-        className='form-control me-2'
-        type='search'
-        placeholder='Search'
-        aria-label='Search'
-      />
-      <button className='btn btn-outline-success' type='submit'>
-        Search
-      </button>
-    </form>
+    location.pathname === '/' && (
+      <form className='d-flex' role='search' onSubmit={handleSubmit}>
+        <input
+          className='form-control me-2'
+          type='search'
+          placeholder='Search'
+          aria-label='Search'
+          onChange={handleChange}
+        />
+      </form>
+    )
   );
 }
 
