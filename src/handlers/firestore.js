@@ -26,6 +26,7 @@ const Firestore = {
   },
 
   saveNote: async (noteId, title, color, text) => {
+    const { readNote } = Firestore;
     const docRef = doc(db, 'notes', noteId);
     await updateDoc(docRef, {
       noteTitle: title,
@@ -33,6 +34,8 @@ const Firestore = {
       noteText: text,
       noteUpdatedAt: serverTimestamp(),
     });
+    const { noteUpdatedAt } = await readNote(noteId);
+    return noteUpdatedAt;
   },
 
   createNote: async (uid) => {

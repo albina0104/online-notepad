@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useLoaderData, useParams } from 'react-router-dom';
 import timestampToDate from '../functions/timestampToDate';
 import Firestore from '../handlers/firestore';
@@ -9,6 +9,9 @@ function NoteView() {
   const titleRef = useRef(null);
   const colorRef = useRef(null);
   const textRef = useRef(null);
+  const [updatedAt, setUpdatedAt] = useState(
+    timestampToDate(note.noteUpdatedAt)
+  );
 
   const submit = async (e) => {
     e.preventDefault();
@@ -18,7 +21,8 @@ function NoteView() {
 
     const { saveNote } = Firestore;
 
-    await saveNote(noteId, title, color, text);
+    const updatedTime = await saveNote(noteId, title, color, text);
+    setUpdatedAt(timestampToDate(updatedTime));
     alert('Note saved successfully!');
   };
 
@@ -67,7 +71,7 @@ function NoteView() {
           Save
         </button>
         <div>Created at: {timestampToDate(note.noteCreatedAt)}</div>
-        <div>Updated at: {timestampToDate(note.noteUpdatedAt)}</div>
+        <div>Updated at: {updatedAt}</div>
       </form>
     </>
   );
