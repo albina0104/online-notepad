@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useLoaderData, useParams } from 'react-router-dom';
 import timestampToDate from '../functions/timestampToDate';
 import Firestore from '../handlers/firestore';
@@ -26,6 +26,19 @@ function NoteView() {
     alert('Note saved successfully!');
   };
 
+  useEffect(() => {
+    if (titleRef.current) {
+      titleRef.current.value = note.noteTitle;
+    }
+    if (colorRef.current) {
+      colorRef.current.value = note.noteColor;
+    }
+    if (textRef.current) {
+      textRef.current.value = note.noteText;
+    }
+    setUpdatedAt(timestampToDate(note.noteUpdatedAt));
+  }, [noteId]);
+
   return (
     <>
       <h1 className='mt-4 mb-4 text-center'>Note</h1>
@@ -39,7 +52,6 @@ function NoteView() {
             type='text'
             className='form-control form-control-lg'
             id='noteTitle'
-            defaultValue={note.noteTitle}
           />
         </div>
         <label htmlFor='colorInput' className='form-label'>
@@ -51,7 +63,6 @@ function NoteView() {
             type='color'
             className='form-control form-control-color'
             id='colorInput'
-            defaultValue={note.noteColor}
             title='Choose your color'
           ></input>
         </div>
@@ -64,7 +75,6 @@ function NoteView() {
             className='form-control'
             id='noteText'
             rows='3'
-            defaultValue={note.noteText}
           ></textarea>
         </div>
         <button type='submit' className='btn btn-primary mb-3'>
