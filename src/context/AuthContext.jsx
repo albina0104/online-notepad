@@ -7,19 +7,32 @@ const AuthContext = createContext(null);
 
 function AuthContextProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
+  const [userLoading, setUserLoading] = useState(true);
 
-  const login = () => signIn().then(setCurrentUser);
+  const login = () => {
+    setUserLoading(true);
+    signIn()
+      .then(setCurrentUser)
+      .then(() => setUserLoading(false));
+  };
   const logout = () => {
+    setUserLoading(true);
     signOut()
       .then(() => setCurrentUser(null))
-      .then(() => console.log('logout was successful'));
+      .then(() => console.log('logout was successful'))
+      .then(() => setUserLoading(false));
   };
   const authenticate = () => {
-    getCurrentUser().then(setCurrentUser);
+    setUserLoading(true);
+    getCurrentUser()
+      .then(setCurrentUser)
+      .then(() => setUserLoading(false));
   };
 
   return (
-    <AuthContext.Provider value={{ currentUser, login, logout, authenticate }}>
+    <AuthContext.Provider
+      value={{ currentUser, userLoading, login, logout, authenticate }}
+    >
       {children}
     </AuthContext.Provider>
   );

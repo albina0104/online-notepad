@@ -104,9 +104,9 @@ function Dropdown() {
           {currentUser && (
             <>
               <li>
-                <a className='dropdown-item' href='#'>
+                <Link to='/profile' className='dropdown-item'>
                   {currentUser.displayName}
-                </a>
+                </Link>
               </li>
               <li>
                 <hr className='dropdown-divider' />
