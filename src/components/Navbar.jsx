@@ -25,6 +25,7 @@ function Navigation() {
   const { currentUser } = useAuthContext();
   const { createNote } = Firestore;
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const newNote = async () => {
     const { uid } = currentUser;
@@ -34,17 +35,23 @@ function Navigation() {
 
   return (
     <ul className='navbar-nav me-auto mb-2 mb-md-0'>
-      <li className='nav-item'>
-        <Link to='/' className='nav-link active' aria-current='page'>
-          Home
-        </Link>
-      </li>
       {currentUser && (
-        <li className='nav-item'>
-          <button type='button' onClick={newNote} className='nav-link'>
-            ➕ New note
-          </button>
-        </li>
+        <>
+          <li className='nav-item'>
+            <Link
+              to='/'
+              className={`nav-link ${pathname === '/' ? 'active' : ''}`}
+              aria-current='page'
+            >
+              Home
+            </Link>
+          </li>
+          <li className='nav-item'>
+            <button type='button' onClick={newNote} className='nav-link'>
+              ➕ New note
+            </button>
+          </li>
+        </>
       )}
     </ul>
   );
@@ -53,7 +60,7 @@ function Navigation() {
 function SearchForm() {
   const { currentUser } = useAuthContext();
   const { filterNotes } = useFirestoreContext();
-  const location = useLocation();
+  const { pathname } = useLocation();
 
   const handleChange = (event) => {
     filterNotes(event.target.value);
@@ -64,7 +71,7 @@ function SearchForm() {
   };
 
   return (
-    location.pathname === '/' &&
+    pathname === '/' &&
     currentUser && (
       <form className='d-flex' role='search' onSubmit={handleSubmit}>
         <input
