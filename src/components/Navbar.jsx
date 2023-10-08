@@ -51,6 +51,7 @@ function Navigation() {
 }
 
 function SearchForm() {
+  const { currentUser } = useAuthContext();
   const { filterNotes } = useFirestoreContext();
   const location = useLocation();
 
@@ -63,7 +64,8 @@ function SearchForm() {
   };
 
   return (
-    location.pathname === '/' && (
+    location.pathname === '/' &&
+    currentUser && (
       <form className='d-flex' role='search' onSubmit={handleSubmit}>
         <input
           className='form-control me-2'
