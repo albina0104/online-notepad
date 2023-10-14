@@ -1,17 +1,19 @@
 import { useRef, useState, useEffect } from 'react';
-import { useLoaderData, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import timestampToDate from '../functions/timestampToDate';
 import Firestore from '../handlers/firestore';
+import Loaders from '../handlers/dataLoaders';
 
 function NoteView() {
-  const note = useLoaderData();
+  const { noteLoader } = Loaders;
+
+  const [note, setNote] = useState(null);
+  const [noteLoading, setNoteLoading] = useState(true);
   const { noteId } = useParams();
   const titleRef = useRef(null);
   const colorRef = useRef(null);
   const textRef = useRef(null);
-  const [updatedAt, setUpdatedAt] = useState(
-    timestampToDate(note.noteUpdatedAt)
-  );
+  const [updatedAt, setUpdatedAt] = useState('');
 
   const submit = async (e) => {
     e.preventDefault();
@@ -27,19 +29,42 @@ function NoteView() {
   };
 
   useEffect(() => {
-    if (titleRef.current) {
-      titleRef.current.value = note.noteTitle;
+    async function loadNote() {
+      setNote(await noteLoader(noteId));
     }
-    if (colorRef.current) {
-      colorRef.current.value = note.noteColor;
-    }
-    if (textRef.current) {
-      textRef.current.value = note.noteText;
-    }
-    setUpdatedAt(timestampToDate(note.noteUpdatedAt));
+
+    setNoteLoading(true);
+    loadNote()
+      .catch((error) => {
+        console.error(error.message);
+      })
+      .finally(() => {
+        setNoteLoading(false);
+      });
   }, [noteId]);
 
-  return (
+  useEffect(() => {
+    if (!noteLoading && note) {
+      if (titleRef.current) {
+        titleRef.current.value = note.noteTitle;
+      }
+      if (colorRef.current) {
+        colorRef.current.value = note.noteColor;
+      }
+      if (textRef.current) {
+        textRef.current.value = note.noteText;
+      }
+      setUpdatedAt(timestampToDate(note.noteUpdatedAt));
+    }
+  }, [noteLoading, note]);
+
+  return noteLoading ? null : !note ? (
+    <h1 className='mt-5 text-center'>
+      Sorry, this note does not exist.
+      <br />
+      Or you don&#39;t have access.
+    </h1>
+  ) : (
     <>
       <h1 className='mt-4 mb-4 text-center'>Note</h1>
       <form onSubmit={submit} className='ms-4 me-4 mb-4'>

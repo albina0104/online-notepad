@@ -15,9 +15,9 @@ const Loaders = {
     return notesList;
   },
 
-  noteLoader: async ({ params }) => {
+  noteLoader: async (noteId) => {
     const { readNote } = Firestore;
-    return await readNote(params.noteId);
+    return await readNote(noteId);
   },
 };
 

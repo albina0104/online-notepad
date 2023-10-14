@@ -16,9 +16,6 @@ import Profile from './components/Profile';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import ErrorPage from './components/ErrorPage.jsx';
 import NotFound from './components/NotFound.jsx';
-import Loaders from './handlers/dataLoaders';
-
-const { noteLoader } = Loaders;
 
 function Router() {
   const { currentUser, authenticate, userLoading } = useAuthContext();
@@ -59,7 +56,6 @@ function Router() {
               <NoteView />
             </ProtectedRoute>
           }
-          loader={noteLoader}
         />
         <Route
           path='profile'

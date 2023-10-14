@@ -19,10 +19,13 @@ const Firestore = {
   },
 
   readNote: async (noteId) => {
-    const docRef = doc(db, 'notes', noteId);
-    const docSnap = await getDoc(docRef);
-
-    return docSnap.data();
+    try {
+      const docRef = doc(db, 'notes', noteId);
+      const docSnap = await getDoc(docRef);
+      return docSnap.data();
+    } catch {
+      console.error('Could not read the note from Firestore');
+    }
   },
 
   saveNote: async (noteId, title, color, text) => {
