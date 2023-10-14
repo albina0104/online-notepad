@@ -1,0 +1,18 @@
+<svg width="600" height="600" xmlns="http://www.w3.org/2000/svg">
+
+ <g>
+  <title>Layer 1</title>
+  <rect stroke="#ffffff" rx="20" stroke-width="50" id="svg_10" height="548.00002" width="471.33333" y="26" x="64.33335" fill="#ffca28"/>
+  <rect rx="20" stroke-width="50" id="svg_1" height="516" width="422" y="42" x="89" stroke="#000" fill="#ffca28"/>
+  <rect rx="20" id="svg_11" height="43" width="139" y="107.33333" x="19.66667" stroke="#ffffff" fill="#ffffff"/>
+  <rect rx="20" id="svg_4" height="43" width="139" y="98" x="29" stroke="#000" fill="#000000"/>
+  <rect rx="20" id="svg_12" height="43" width="139" y="187.33334" x="19.66667" stroke="#ffffff" fill="#ffffff"/>
+  <rect rx="20" id="svg_5" height="43" width="139" y="180" x="29" stroke="#000" fill="#000000"/>
+  <rect rx="20" id="svg_13" height="43" width="139" y="271.33334" x="19.66667" stroke="#ffffff" fill="#ffffff"/>
+  <rect rx="20" id="svg_7" height="43" width="139" y="263" x="29" stroke="#000" fill="#000000"/>
+  <rect rx="20" id="svg_14" height="43" width="139" y="356.66667" x="19.66667" stroke="#ffffff" fill="#ffffff"/>
+  <rect rx="20" id="svg_8" height="43" width="139" y="348" x="29" stroke="#000" fill="#000000"/>
+  <rect rx="20" id="svg_15" height="43" width="139" y="439.33334" x="19.66667" stroke="#ffffff" fill="#ffffff"/>
+  <rect rx="20" id="svg_9" height="43" width="139" y="432" x="29" stroke="#000" fill="#000000"/>
+ </g>
+</svg>
