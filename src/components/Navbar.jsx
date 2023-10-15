@@ -2,15 +2,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Firestore from '../handlers/firestore';
 import { useFirestoreContext } from '../context/FirestoreContext';
 import { useAuthContext } from '../context/AuthContext';
-
-function LoginButton() {
-  const { login } = useAuthContext();
-  return (
-    <button type='button' className='btn btn-warning' onClick={login}>
-      Login
-    </button>
-  );
-}
+import LoginButton from './LoginButton';
 
 function LogoutButton() {
   const { logout } = useAuthContext();

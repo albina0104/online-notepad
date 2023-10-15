@@ -1,3 +1,5 @@
+import LoginButton from './LoginButton';
+
 function Index() {
   return (
     <h1 className='mt-5 text-center'>
@@ -5,6 +7,9 @@ function Index() {
       <br />
       <br />
       Please log in to use Online Notepad.
+      <br />
+      <br />
+      <LoginButton />
     </h1>
   );
 }
