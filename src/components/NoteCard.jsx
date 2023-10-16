@@ -21,15 +21,27 @@ function NoteControls({ noteId, noteColor }) {
 
   return (
     <div
-      className='btn-group float-end'
+      className='btn-group'
       role='group'
-      style={{ display: 'inline-block', width: '30px', height: '30px' }}
+      style={{
+        display: 'block',
+        position: 'absolute',
+        top: '0',
+        right: '0',
+      }}
     >
       <button
         type='button'
         className='btn'
         data-bs-toggle='dropdown'
         aria-expanded='false'
+        style={{
+          width: '30px',
+          height: '30px',
+          padding: '0',
+          backgroundColor: 'rgba(255, 255, 255, 0.5)',
+          borderRadius: '0 var(--bs-border-radius)',
+        }}
       >
         ...
       </button>
@@ -86,23 +98,31 @@ function NoteCard({ noteId, noteTitle, noteColor, noteText, noteUpdatedAt }) {
   return (
     <>
       <div className='col'>
-        <div
-          className='card text-center h-100'
-          style={{ backgroundColor: noteColor }}
+        <Link
+          to={`note/${noteId}`}
+          style={{
+            textDecoration: 'none',
+          }}
         >
-          <div className='card-header'>
-            <Link to={`note/${noteId}`} style={{ display: 'inline-block' }}>
-              <h5 className='card-title'>{noteTitle}</h5>
-            </Link>
-            <NoteControls noteId={noteId} noteColor={noteColor} />
+          <div
+            className='card text-center h-100'
+            style={{ backgroundColor: noteColor }}
+          >
+            <div
+              className='card-header'
+              style={{ position: 'relative', minHeight: '31px' }}
+            >
+              <h5 className='card-title ps-3 pe-3'>{noteTitle}</h5>
+              <NoteControls noteId={noteId} noteColor={noteColor} />
+            </div>
+            <div className='card-body'>
+              <p className='card-text'>{noteText}</p>
+            </div>
+            <div className='card-footer text-body-secondary'>
+              {timestampToDate(noteUpdatedAt)}
+            </div>
           </div>
-          <div className='card-body'>
-            <p className='card-text'>{noteText}</p>
-          </div>
-          <div className='card-footer text-body-secondary'>
-            Updated at {timestampToDate(noteUpdatedAt)}
-          </div>
-        </div>
+        </Link>
       </div>
     </>
   );
