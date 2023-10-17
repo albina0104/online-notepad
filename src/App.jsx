@@ -16,6 +16,7 @@ import Profile from './components/Profile';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import ErrorPage from './components/ErrorPage.jsx';
 import NotFound from './components/NotFound.jsx';
+import { About } from './components/About';
 
 function Router() {
   const { currentUser, authenticate, userLoading } = useAuthContext();
@@ -65,6 +66,7 @@ function Router() {
             </ProtectedRoute>
           }
         />
+        <Route path='about' element={<About />} />
         <Route path='*' element={<NotFound />} />
       </Route>
     )

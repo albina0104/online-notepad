@@ -96,28 +96,33 @@ function Dropdown() {
               style={{ width: '36px', height: '36px', borderRadius: '50%' }}
             />
           ) : (
-            'Login'
+            'Menu'
           )}
         </button>
         <ul className='dropdown-menu dropdown-menu-end text-center'>
           {currentUser && (
+            <li>
+              <Link to='/profile' className='dropdown-item'>
+                My Profile
+              </Link>
+            </li>
+          )}
+          <li>
+            <Link to='/about' className='dropdown-item'>
+              About
+            </Link>
+          </li>
+          <hr className='dropdown-divider' />
+          {!currentUser && (
             <>
               <li>
-                <Link to='/profile' className='dropdown-item'>
-                  {currentUser.displayName}
-                </Link>
-              </li>
-              <li>
-                <hr className='dropdown-divider' />
-              </li>
-              <li>
-                <LogoutButton />
+                <LoginButton />
               </li>
             </>
           )}
-          {!currentUser && (
+          {currentUser && (
             <li>
-              <LoginButton />
+              <LogoutButton />
             </li>
           )}
         </ul>
