@@ -13,7 +13,7 @@ function LogoutButton() {
   );
 }
 
-function Navigation() {
+function NavigationLeft() {
   const { currentUser } = useAuthContext();
   const { createNote } = Firestore;
   const navigate = useNavigate();
@@ -78,13 +78,15 @@ function SearchForm() {
   );
 }
 
-function Dropdown() {
+function NavigationRight() {
   const { currentUser } = useAuthContext();
   const { pathname } = useLocation();
 
   return (
     <ul className='navbar-nav mb-2 mb-md-0'>
-      {!currentUser ? (
+      {currentUser ? (
+        <Dropdown />
+      ) : (
         <>
           <Link
             to='/about'
@@ -94,38 +96,44 @@ function Dropdown() {
           </Link>
           <LoginButton />
         </>
-      ) : (
-        <li className='nav-item dropdown ms-2'>
-          <button
-            className='nav-link dropdown-toggle p-md-0'
-            data-bs-toggle='dropdown'
-            aria-expanded='false'
-          >
-            <img
-              src={currentUser.photoURL}
-              alt={currentUser.displayName}
-              style={{ width: '36px', height: '36px', borderRadius: '50%' }}
-            />
-          </button>
-          <ul className='dropdown-menu dropdown-menu-end text-center'>
-            <li>
-              <Link to='/profile' className='dropdown-item'>
-                My Profile
-              </Link>
-            </li>
-            <li>
-              <Link to='/about' className='dropdown-item'>
-                About
-              </Link>
-            </li>
-            <hr className='dropdown-divider' />
-            <li>
-              <LogoutButton />
-            </li>
-          </ul>
-        </li>
       )}
     </ul>
+  );
+}
+
+function Dropdown() {
+  const { currentUser } = useAuthContext();
+
+  return (
+    <li className='nav-item dropdown ms-2'>
+      <button
+        className='nav-link dropdown-toggle p-md-0'
+        data-bs-toggle='dropdown'
+        aria-expanded='false'
+      >
+        <img
+          src={currentUser.photoURL}
+          alt={currentUser.displayName}
+          style={{ width: '36px', height: '36px', borderRadius: '50%' }}
+        />
+      </button>
+      <ul className='dropdown-menu dropdown-menu-end text-center'>
+        <li>
+          <Link to='/profile' className='dropdown-item'>
+            My Profile
+          </Link>
+        </li>
+        <li>
+          <Link to='/about' className='dropdown-item'>
+            About
+          </Link>
+        </li>
+        <hr className='dropdown-divider' />
+        <li>
+          <LogoutButton />
+        </li>
+      </ul>
+    </li>
   );
 }
 
@@ -149,9 +157,9 @@ function Navbar() {
             <span className='navbar-toggler-icon'></span>
           </button>
           <div className='collapse navbar-collapse' id='navbarSupportedContent'>
-            <Navigation />
+            <NavigationLeft />
             <SearchForm />
-            <Dropdown />
+            <NavigationRight />
           </div>
         </div>
       </nav>
