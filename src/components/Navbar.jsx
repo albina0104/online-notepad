@@ -80,53 +80,51 @@ function SearchForm() {
 
 function Dropdown() {
   const { currentUser } = useAuthContext();
+  const { pathname } = useLocation();
 
   return (
     <ul className='navbar-nav mb-2 mb-md-0'>
-      <li className='nav-item dropdown ms-2'>
-        <button
-          className='nav-link dropdown-toggle p-md-0'
-          data-bs-toggle='dropdown'
-          aria-expanded='false'
-        >
-          {currentUser ? (
+      {!currentUser ? (
+        <>
+          <Link
+            to='/about'
+            className={`nav-link pe-3 ${pathname === '/about' ? 'active' : ''}`}
+          >
+            About
+          </Link>
+          <LoginButton />
+        </>
+      ) : (
+        <li className='nav-item dropdown ms-2'>
+          <button
+            className='nav-link dropdown-toggle p-md-0'
+            data-bs-toggle='dropdown'
+            aria-expanded='false'
+          >
             <img
               src={currentUser.photoURL}
               alt={currentUser.displayName}
               style={{ width: '36px', height: '36px', borderRadius: '50%' }}
             />
-          ) : (
-            'Menu'
-          )}
-        </button>
-        <ul className='dropdown-menu dropdown-menu-end text-center'>
-          {currentUser && (
+          </button>
+          <ul className='dropdown-menu dropdown-menu-end text-center'>
             <li>
               <Link to='/profile' className='dropdown-item'>
                 My Profile
               </Link>
             </li>
-          )}
-          <li>
-            <Link to='/about' className='dropdown-item'>
-              About
-            </Link>
-          </li>
-          <hr className='dropdown-divider' />
-          {!currentUser && (
-            <>
-              <li>
-                <LoginButton />
-              </li>
-            </>
-          )}
-          {currentUser && (
+            <li>
+              <Link to='/about' className='dropdown-item'>
+                About
+              </Link>
+            </li>
+            <hr className='dropdown-divider' />
             <li>
               <LogoutButton />
             </li>
-          )}
-        </ul>
-      </li>
+          </ul>
+        </li>
+      )}
     </ul>
   );
 }
