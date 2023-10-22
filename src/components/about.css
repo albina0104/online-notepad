@@ -1,0 +1,5 @@
+.my-photo {
+  @media screen and (max-width: 767px) {
+    border-radius: 0 !important;
+  }
+}
