@@ -26,8 +26,8 @@ function NoteControls({ noteId, noteColor }) {
       style={{
         display: 'block',
         position: 'absolute',
-        top: '0',
-        right: '0',
+        top: 'var(--bs-border-width)',
+        right: 'var(--bs-border-width)',
       }}
     >
       <button
@@ -98,31 +98,37 @@ function NoteCard({ noteId, noteTitle, noteColor, noteText, noteUpdatedAt }) {
   return (
     <>
       <div className='col'>
-        <Link
-          to={`note/${noteId}`}
+        <div
           style={{
-            textDecoration: 'none',
+            position: 'relative',
           }}
         >
-          <div
-            className='card text-center h-100'
-            style={{ backgroundColor: noteColor }}
+          <Link
+            to={`note/${noteId}`}
+            style={{
+              textDecoration: 'none',
+            }}
           >
             <div
-              className='card-header'
-              style={{ position: 'relative', minHeight: '31px' }}
+              className='card text-center h-100'
+              style={{ backgroundColor: noteColor }}
             >
-              <h5 className='card-title ps-3 pe-3'>{noteTitle}</h5>
-              <NoteControls noteId={noteId} noteColor={noteColor} />
+              <div
+                className='card-header'
+                style={{ position: 'relative', minHeight: '31px' }}
+              >
+                <h5 className='card-title ps-3 pe-3'>{noteTitle}</h5>
+              </div>
+              <div className='card-body'>
+                <p className='card-text'>{noteText}</p>
+              </div>
+              <div className='card-footer text-body-secondary'>
+                {timestampToDate(noteUpdatedAt)}
+              </div>
             </div>
-            <div className='card-body'>
-              <p className='card-text'>{noteText}</p>
-            </div>
-            <div className='card-footer text-body-secondary'>
-              {timestampToDate(noteUpdatedAt)}
-            </div>
-          </div>
-        </Link>
+          </Link>
+          <NoteControls noteId={noteId} noteColor={noteColor} />
+        </div>
       </div>
     </>
   );
