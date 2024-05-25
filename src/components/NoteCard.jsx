@@ -3,15 +3,11 @@ import PropTypes from 'prop-types';
 import Firestore from '../handlers/firestore';
 import timestampToDate from '../functions/timestampToDate';
 import { useFirestoreContext } from '../context/FirestoreContext';
+import ColorChooserModal from './ColorChooserModal';
 
 function NoteControls({ noteId, noteColor }) {
   const { loadNotes } = useFirestoreContext();
-  const { deleteNote, changeNoteColor } = Firestore;
-
-  const handleColorChange = async (noteId, event) => {
-    await changeNoteColor(noteId, event.target.value);
-    loadNotes();
-  };
+  const { deleteNote } = Firestore;
 
   const handleDelete = async () => {
     await deleteNote(noteId);
@@ -47,28 +43,14 @@ function NoteControls({ noteId, noteColor }) {
       </button>
       <ul className='dropdown-menu'>
         <li>
-          <a className='dropdown-item' href='#'>
-            <label style={{ position: 'relative' }}>
-              <input
-                type='color'
-                className='form-control form-control-color'
-                name='colorInput'
-                id='colorInput'
-                defaultValue={noteColor}
-                title='Choose your color'
-                style={{
-                  position: 'absolute',
-                  width: '100%',
-                  height: '100%',
-                  opacity: '0',
-                }}
-                onChange={(event) => {
-                  handleColorChange(noteId, event);
-                }}
-              ></input>
-              🎨 Change note color
-            </label>
-          </a>
+          <button
+            type='button'
+            className='btn btn-primary dropdown-item'
+            data-bs-toggle='modal'
+            data-bs-target={`#colorChooserModal-${noteId}`}
+          >
+            🎨 Change note color
+          </button>
         </li>
         <li>
           <Link to={`note/${noteId}`} className='btn dropdown-item'>
@@ -86,6 +68,7 @@ function NoteControls({ noteId, noteColor }) {
           </button>
         </li>
       </ul>
+      <ColorChooserModal noteId={noteId} noteColor={noteColor} />
     </div>
   );
 }
